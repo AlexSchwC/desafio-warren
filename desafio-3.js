@@ -1,63 +1,56 @@
 const n = 10
 const inputArr = [2, 3, 4]
 const arrTeste = [9, 7, 6, 5, 3, 1]
+const arrTeste2 = [2, 5]
 
-function encontraSoma(n, inputArr) {
+function somasDecrescentes (n, inputArr, somasPossiveis) {
+    let arr = []
+    let alvo = n
+    let j = inputArr.length -1
+    let i = inputArr.length -1
+    for (i; i >= 0;) {
+        console.log(`i:${i} - j:${j} - alvo:${alvo}`)
+        if (inputArr[i] > alvo) {
+            while (inputArr[j] > alvo) {
+                j--
+                if (j === -1) {
+                    arr = []
+                    i--
+                    j = i
+                    alvo = n
+                }
+            }
+        }
+        if (inputArr[i] <= alvo || inputArr[j] <= alvo) {
+            arr.push(inputArr[j])
+            alvo -= inputArr[j]
+        }
+        if (alvo === 0) {
+            somasPossiveis.push(arr)
+            arr = []
+            i--
+            j = i
+            alvo = n
+        }
+    }
+}
+
+function somasAproximadas (n, inputArr, somasPossiveis) {
+    
+}
+
+function encontraSomas(n, inputArr) {
     const arrOrdenado = inputArr.sort((a, b) => a - b);
-    let arrIterado = arrOrdenado
-    let arrIterado2 = arrOrdenado
 
     let somasPossiveis = []
     let menoresSomas = []
 
-    let nAlvo = n
-    let arr = []
-    for (let i = arrOrdenado.length - 1; i >= 0;) {
-        // percorrer o array fazendo somas com o maior valor do array
-        if (nAlvo >= arrIterado[i]) {
-            nAlvo -= arrIterado[i]
-            arr.push(arrIterado[i])
-        }
+    somasDecrescentes(n, arrOrdenado, somasPossiveis)
 
-        if (nAlvo < arrIterado[i]) {
-            i--
-            arrIterado.pop()
-        }
-
-        if (nAlvo === 0) {    
-            arrIterado.pop()
-            somasPossiveis.push(arr)
-            nAlvo = n
-            arr = []
-        }
-    }
-    console.log("> ", arrIterado)
-    
-    // arr = []
-
-    // for (let i = 0; i < arrOrdenado.length;) {
-    //     // percorrer o array fazendo somas com o menor valor do array
-    //     if (nAlvo >= arrIterado2[i]) {
-    //         nAlvo -= arrIterado2[i]
-    //         arr.push(arrIterado2[i])
-    //     }
-
-    //     if (nAlvo < arrIterado2[i]) {
-    //         i++
-    //     }
-
-    //     if (nAlvo === 0 || nextLoop === true) {    
-    //         arrIterado2 = arrIterado2.splice(0, 1)
-    //         somasPossiveis.push(arr)
-    //         arr = []
-    //         nAlvo = n
-    //     }
-    // }
     console.log(somasPossiveis)
 }
 
-// encontraSoma(n, inputArr)
-encontraSoma(n, inputArr)
+encontraSomas(n, arrTeste)
 
 /* 
 ir testanto os numeros do array em sentido crescente eliminando o primeiro elemento a cada teste, e depois uma vez em ordem decrescente
