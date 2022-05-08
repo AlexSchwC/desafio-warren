@@ -7,7 +7,7 @@
 Os códigos foram escritos em JavaScript para rodar em NodeJS e foram testados apenas nas versões 16 e 17 do Node.
 Além do Node os desafios 2 e 3 utilizam de um pacote chamado 'readline-sync'.
 
-Para instalar basta executar um dos comando abaixo baseado no package menager da sua escolha:
+Para instalar basta executar um dos comando abaixo baseado no package manager da sua escolha:
 npm i readline-sync;
 yarn add readline-sync;
 
