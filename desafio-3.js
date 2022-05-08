@@ -1,8 +1,4 @@
-const n = 10
-const inputArr = [2, 3, 4]
-const arrTeste = [9, 7, 6, 5, 3, 1]
-const arrTeste2 = [2, 5]
-const arrTeste3 = [ 3, 7 ]
+const rls = require('readline-sync')
 
 function somasDecrescentes (n, inputArr, somasPossiveis) {
     let arr = []
@@ -10,13 +6,9 @@ function somasDecrescentes (n, inputArr, somasPossiveis) {
     let j = inputArr.length -1
     let i = inputArr.length -1
     for (i; i >= 0;) {
-        // console.log(`i:${i} - j:${j} - alvo:${alvo}`)
         if (inputArr[i] > alvo) {
             while (inputArr[j] > alvo) {
                 j--
-                if (alvo - inputArr[j] < 0) {
-
-                }
                 if (j === -1) {
                     arr = []
                     i--
@@ -39,32 +31,23 @@ function somasDecrescentes (n, inputArr, somasPossiveis) {
     }
 }
 
-function somasAproximadas (n, inputArr, somasPossiveis) {
-    let arr = []
-    let alvo = n
-    let j = inputArr.length -1
-    let i = inputArr.length -1
-
-    for (i; i >= 0;) {
-        if (inputArr[i] > alvo) {
-            console.log(alvo)
-            i--
-        }
-
-        if (inputArr[i] <= alvo || inputArr[j] <= alvo) {
-            arr.push(inputArr[j])
-            alvo -= inputArr[j]
-        }
-    }
-}
-
 function encontraSomas(n, inputArr) {
     const arrOrdenado = inputArr.sort((a, b) => a - b);
 
     let somasPossiveis = []
 
     somasDecrescentes(n, arrOrdenado, somasPossiveis)
-    if (somasPossiveis.length === 0) somasAproximadas(n, arrOrdenado, somasPossiveis)
+
+    let positivoAproximado = n
+    let negativoAproximado = n
+    let contaVariacao = 0
+    while (somasPossiveis.length === 0) {
+        positivoAproximado++
+        negativoAproximado--
+        contaVariacao++
+        somasDecrescentes(positivoAproximado, arrOrdenado, somasPossiveis)
+        somasDecrescentes(negativoAproximado, arrOrdenado, somasPossiveis)
+    }
 
     let menorLength = somasPossiveis.map(arr => arr.length).reduce((acc, atual) => atual < acc ? atual : acc)
 
@@ -72,14 +55,18 @@ function encontraSomas(n, inputArr) {
         if (arr.length === menorLength) return arr
     })
     
-    console.log(menoresSomas)
+    if (positivoAproximado !== n) {
+        console.log(`Não foi encontrada uma soma que satisfaça o número alvo ${n}`)
+        console.log(`As somas mais próximas foram encontradas dentro de +/- ${contaVariacao} a partir de ${n}:`)
+        console.log(menoresSomas)
+    } else {
+        console.log(`As menores somas possiveis dado o número alvo ${n} são: `)
+        console.log(menoresSomas)
+    }
 }
 
-encontraSomas(n, arrTeste)
+const n = rls.question('Por favor insira aqui o numero alvo: ')
+const strInput = rls.question('Agora insira os numeros que serao usados para tentar somar ate o numero alvo anterior. \nSeparados apenas por virgula: \n')
+const arrInput = strInput.length <= 1 ? strInput : strInput.trim().split(',')
 
-/* 
-ir testanto os numeros do array em sentido crescente eliminando o primeiro elemento a cada teste, e depois uma vez em ordem decrescente
-sempre verificando o resto % no processo
-[2, 3, 4] => [3, 4] => [4]
-[4, 3, 2]
-*/
+encontraSomas(n, arrInput)
