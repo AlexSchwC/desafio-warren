@@ -23,7 +23,7 @@ function mostraImpares(num) {
     console.log(reversiveis);
 };
 
-mostraImpares(1000);
+mostraImpares(1000000);
 
 
 
